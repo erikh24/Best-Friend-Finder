@@ -29,11 +29,12 @@ module.exports = function(app) {
         {
             name: "",
             photo: "",
-            friendDifference: Infinity
-        }
+            friendDifference: 100
+        };
+
         var userData = req.body;
         var userScore = userData.score;
-        var totalDifference;
+        var totalDifference = 0;
 
         for (i = 0; i < friends.length; i++) {
             var currentFriend = friends[i];
@@ -41,14 +42,16 @@ module.exports = function(app) {
             for (j = 0; j < currentFriend.score; j++) {
                 var currentFriendScore = currentFriend.score[j];
                 currentUserScore = userScore[j];
-                totalDifference = totalDifference + Math.abs(currentUserScore) - parseInt(currentFriendScore);
-            }
+                totalDifference = totalDifference + Math.abs(parseInt(currentUserScore) - parseInt(currentFriendScore));
+            
             if (totalDifference <= bestMatch.friendDifference) {
                 bestMatch.name = currentFriend.name;
                 bestMatch.photo = currentFriend.photo;
-                bestMatch.friendDifference = currentFriend.friendDifference;
+                bestMatch.friendDifference = totalDifference;
+                // bestMatch.friendDifference = currentFriend.friendDifference; ** this is what Michell helped me do
             }
         }
+    }
         friends.push(userData);
         res.json(bestMatch);
     });
