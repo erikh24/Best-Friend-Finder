@@ -24,7 +24,6 @@ module.exports = function(app) {
     });
 
     app.post("/api/friends", function(req, res) {
-        // friends.push(req.body);
         var bestMatch = 
         {
             name: "",
@@ -39,7 +38,7 @@ module.exports = function(app) {
         for (i = 0; i < friends.length; i++) {
             var currentFriend = friends[i];
             totalDifference = 0;
-            for (j = 0; j < currentFriend.score; j++) {
+            for (j = 0; j < currentFriend.score.length; j++) {
                 var currentFriendScore = currentFriend.score[j];
                 currentUserScore = userScore[j];
                 totalDifference = totalDifference + Math.abs(parseInt(currentUserScore) - parseInt(currentFriendScore));
@@ -48,7 +47,6 @@ module.exports = function(app) {
                 bestMatch.name = currentFriend.name;
                 bestMatch.photo = currentFriend.photo;
                 bestMatch.friendDifference = totalDifference;
-                // bestMatch.friendDifference = currentFriend.friendDifference; ** this is what Michell helped me do
             }
         }
     }
